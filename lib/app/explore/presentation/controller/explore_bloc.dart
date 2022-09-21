@@ -1,7 +1,6 @@
 import 'package:booking_app/app/explore/domain/use_cases/get_hotels_usecase.dart';
 import 'package:booking_app/app/explore/presentation/controller/explore_event.dart';
 import 'package:booking_app/app/explore/presentation/controller/explore_state.dart';
-import 'package:booking_app/core/base_usecase/base_usecase.dart';
 import 'package:booking_app/core/errors/network_exception.dart';
 import 'package:booking_app/core/utils/request_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,12 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     required this.getHotelsUseCase,
   }) : super(const ExploreState()) {
     on<GetHotelsEvent>((event, emit) async {
-      var response = await getHotelsUseCase(const NoParemeters());
+      var response = await getHotelsUseCase(
+        const HotelParameters(
+          //ToDo here give the parameters depend on call
+          count: 4,
+        ),
+      );
       print(response);
       response.fold((l) {
         print(NetworkExceptions.getErrorMessage(l));

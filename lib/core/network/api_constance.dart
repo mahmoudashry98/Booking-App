@@ -15,7 +15,7 @@ class ApiConstance {
   static const String updateBookingStatusEndPoint = '/update-booking-status?';
   static const String getBookingEndPoint = '/get-bookings?';
   static const String getFacilitiesEndPoint = '/facilities';
-  static const String searchEndPoint = '/search-hotels?';
+  static const String searchEndPoint = '/search-hotels?name=Nasr Cirt&address=rome';
 }
 
 final Dio dio = Dio(

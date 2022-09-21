@@ -10,12 +10,15 @@ import 'package:booking_app/app/explore/domain/use_cases/get_hotels_usecase.dart
 import 'package:booking_app/app/explore/presentation/controller/explore_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../app/filter/presentation/controller/search_bloc.dart';
+
 final sl = GetIt.instance;
 
 class ServicesLocator {
   void init() {
     ///BLoc
 
+    sl.registerFactory(() => SearchBloc(getHotelsUseCase: sl()));
     sl.registerFactory(() => ExploreBloc(getHotelsUseCase: sl()));
     sl.registerFactory(() => AuthBloc(loginUseCase: sl()));
     ///Use cases
