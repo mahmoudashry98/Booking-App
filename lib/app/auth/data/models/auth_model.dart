@@ -1,6 +1,6 @@
-import 'package:booking_app/app/auth/domain/entities/login.dart';
+import 'package:booking_app/app/auth/domain/entities/auth_entity.dart';
 
-class LoginModel extends Login {
+class LoginModel extends Auth {
   const LoginModel(
       {required super.id,
       required super.name,
