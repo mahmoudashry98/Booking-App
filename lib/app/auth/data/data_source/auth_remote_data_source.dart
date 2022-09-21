@@ -1,11 +1,13 @@
-import 'package:booking_app/app/auth/data/models/login_model.dart';
+import 'package:booking_app/app/auth/data/models/auth_model.dart';
 import 'package:booking_app/app/auth/domain/use_cases/login_usecase.dart';
+import 'package:booking_app/app/auth/domain/use_cases/register_usecase.dart';
+import 'package:booking_app/app/auth/domain/use_cases/update_profile_usecase.dart';
 import 'package:booking_app/core/network/api_constance.dart';
 import 'package:booking_app/core/network/status.dart';
 import 'package:dio/dio.dart';
 
 abstract class AuthBaseRemoteDataSource {
-  Future<LoginModel> postLogin({
+  Future<AuthModel> postLogin({
     String? base,
     String? endPoint,
     dynamic data,
@@ -16,11 +18,43 @@ abstract class AuthBaseRemoteDataSource {
     int? timeOut,
     bool isMultipart = false,
   });
+  Future<AuthModel> postRegister({
+    String? base,
+    String? endPoint,
+    dynamic data,
+    required RegisterParameters registerParameters,
+    String? token,
+    ProgressCallback? progressCallback,
+    CancelToken? cancelToken,
+    int? timeOut,
+    bool isMultipart = false,
+  });
+  Future<AuthModel> getProfileInfo({
+    String? base,
+    String? endPoint,
+    dynamic data,
+    String? token,
+    ProgressCallback? progressCallback,
+    CancelToken? cancelToken,
+    int? timeOut,
+    bool isMultipart = false,
+  });
+  Future<AuthModel> postUpdateProfile({
+    String? base,
+    String? endPoint,
+    dynamic data,
+    required UpdateProfileParameters updateProfileParameters,
+    String? token,
+    ProgressCallback? progressCallback,
+    CancelToken? cancelToken,
+    int? timeOut,
+    bool isMultipart = false,
+  });
 }
 
 class AuthRemoteDataSource extends AuthBaseRemoteDataSource {
   @override
-  Future<LoginModel> postLogin({
+  Future<AuthModel> postLogin({
     String? base,
     String? endPoint,
     data,
@@ -48,7 +82,119 @@ class AuthRemoteDataSource extends AuthBaseRemoteDataSource {
     });
     if (response.statusCode == 200) {
       statusModel = StatusModel.fromJson(response.data['status']);
-      return LoginModel.fromJson(response.data);
+      return AuthModel.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
+  @override
+  Future<AuthModel> postRegister({
+    String? base,
+    String? endPoint,
+    data,
+    required RegisterParameters registerParameters,
+    String? token,
+    ProgressCallback? progressCallback,
+    CancelToken? cancelToken,
+    int? timeOut,
+    bool isMultipart = false,
+  }) async {
+    if (timeOut != null) {
+      dio.options.connectTimeout = timeOut;
+    }
+
+    dio.options.headers = {
+      if (isMultipart) 'Content-Type': 'multipart/form-data',
+      if (!isMultipart) 'Content-Type': 'application/json',
+      if (!isMultipart) 'Accept': 'application/json',
+      if (token != null) 'token': token,
+    };
+
+    var response =
+        await dio.post(ApiConstance.registerEndPoint, queryParameters: {
+      'name': registerParameters.name,
+      'email': registerParameters.email,
+      'password': registerParameters.password,
+      'password_confirmation': registerParameters.password,
+    });
+
+    if (response.statusCode == 200) {
+      registerstatusModel = StatusModel.fromJson(response.data['status']);
+
+      return AuthModel.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
+  @override
+  Future<AuthModel> getProfileInfo({
+    String? base,
+    String? endPoint,
+    data,
+    String? token,
+    ProgressCallback? progressCallback,
+    CancelToken? cancelToken,
+    int? timeOut,
+    bool isMultipart = false,
+  }) async {
+    if (timeOut != null) {
+      dio.options.connectTimeout = timeOut;
+    }
+
+    dio.options.headers = {
+      if (isMultipart) 'Content-Type': 'multipart/form-data',
+      if (!isMultipart) 'Content-Type': 'application/json',
+      if (!isMultipart) 'Accept': 'application/json',
+      if (token != null) 'token': token,
+    };
+
+    var response = await dio.get(
+      ApiConstance.getProfileInfoEndPoint,
+    );
+
+    if (response.statusCode == 200) {
+      statusProfileInfo = StatusProfileInfo.fromJson(response.data['status']);
+      return AuthModel.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
+  @override
+  Future<AuthModel> postUpdateProfile({
+    String? base,
+    String? endPoint,
+    data,
+    required UpdateProfileParameters updateProfileParameters,
+    String? token,
+    ProgressCallback? progressCallback,
+    CancelToken? cancelToken,
+    int? timeOut,
+    bool isMultipart = false,
+  }) async {
+    if (timeOut != null) {
+      dio.options.connectTimeout = timeOut;
+    }
+
+    dio.options.headers = {
+      if (isMultipart) 'Content-Type': 'multipart/form-data',
+      if (!isMultipart) 'Content-Type': 'application/json',
+      if (!isMultipart) 'Accept': 'application/json',
+      if (token != null) 'token': token,
+    };
+
+    var response = await dio
+        .post(ApiConstance.updateProfileInfoEndPoint, queryParameters: {
+      'name': updateProfileParameters.name,
+      'email': updateProfileParameters.email,
+      //  'image': updateProfileParameters.image,
+    });
+
+    if (response.statusCode == 200) {
+      updateProfileStatusModel = StatusModel.fromJson(response.data['status']);
+      return AuthModel.fromJson(response.data);
     } else {
       throw Exception();
     }

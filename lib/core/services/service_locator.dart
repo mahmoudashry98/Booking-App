@@ -1,7 +1,10 @@
 import 'package:booking_app/app/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:booking_app/app/auth/data/repository/auth_repository.dart';
 import 'package:booking_app/app/auth/domain/base_repository/auth_base_repository.dart';
+import 'package:booking_app/app/auth/domain/use_cases/get_profile_info_usecase.dart';
 import 'package:booking_app/app/auth/domain/use_cases/login_usecase.dart';
+import 'package:booking_app/app/auth/domain/use_cases/register_usecase.dart';
+import 'package:booking_app/app/auth/domain/use_cases/update_profile_usecase.dart';
 import 'package:booking_app/app/auth/presentation/controller/auth_bloc.dart';
 import 'package:booking_app/app/explore/data/data_source/explore_remote_data_source.dart';
 import 'package:booking_app/app/explore/data/repository/explore_repository.dart';
@@ -17,16 +20,30 @@ class ServicesLocator {
     ///BLoc
 
     sl.registerFactory(() => ExploreBloc(getHotelsUseCase: sl()));
-    sl.registerFactory(() => AuthBloc(loginUseCase: sl()));
+    sl.registerFactory(() => AuthBloc(
+        loginUseCase: sl(),
+        registerUseCase: sl(),
+        profileInfoUseCase: sl(),
+        updateProfileUseCase: sl()));
+
     ///Use cases
     sl.registerLazySingleton(() => GetHotelsUseCase(baseRepository: sl()));
     sl.registerLazySingleton(() => LoginUseCase(baseRepository: sl()));
+    sl.registerLazySingleton(() => RegisterUseCase(authBaseRepository: sl()));
+    sl.registerLazySingleton(
+        () => GetProfileInfoUseCase(authBaseRepository: sl()));
+    sl.registerLazySingleton(
+        () => UpdateProfileUseCase(authBaseRepository: sl()));
 
     ///BaseRepository
-    sl.registerLazySingleton<ExploreBaseRepository>(() => ExploreRepository(sl()));
+    sl.registerLazySingleton<ExploreBaseRepository>(
+        () => ExploreRepository(sl()));
     sl.registerLazySingleton<AuthBaseRepository>(() => AuthRepository(sl()));
+
     ///BaseRemotDataSource
-    sl.registerLazySingleton<ExploreBaseRemoteDataSource>(() => ExploreRemoteDataSource());
-    sl.registerLazySingleton<AuthBaseRemoteDataSource>(() => AuthRemoteDataSource());
+    sl.registerLazySingleton<ExploreBaseRemoteDataSource>(
+        () => ExploreRemoteDataSource());
+    sl.registerLazySingleton<AuthBaseRemoteDataSource>(
+        () => AuthRemoteDataSource());
   }
 }
