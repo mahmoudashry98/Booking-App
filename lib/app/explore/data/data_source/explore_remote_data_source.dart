@@ -40,7 +40,7 @@ class ExploreRemoteDataSource extends ExploreBaseRemoteDataSource {
     var response = await dio.get(ApiConstance.getHotelsEndPoint);
     if (response.data['status']['type'] == '1' && response.statusCode == 200) {
       print(response);
-      return List<HotelModel>.from((response.data['dat']['data'] as List)
+      return List<HotelModel>.from((response.data['data']['data'] as List)
           .map((e) => HotelModel.fromjson(e)));
     } else if (response.data['status']['type'] == '0' &&
         response.statusCode == 200) {

@@ -24,3 +24,20 @@ class StatusModel extends Equatable {
   @override
   List<Object> get props => [type, messageAr, messageEn];
 }
+
+class StatusProfileInfo extends Equatable {
+  final String type;
+  final String message;
+
+  const StatusProfileInfo({required this.type, required this.message});
+
+  factory StatusProfileInfo.fromJson(Map<String, dynamic> json) {
+    return StatusProfileInfo(
+      type: json['type'] ?? '0',
+      message: json['title'] != null ? json['title'] ?? 'empty' : 'empty',
+    );
+  }
+
+  @override
+  List<Object?> get props => [type, message];
+}
