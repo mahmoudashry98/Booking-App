@@ -1,3 +1,4 @@
+import 'package:booking_app/app/search/domain/usecase/get_search_usecase.dart';
 import 'package:booking_app/core/network/status.dart';
 import 'package:dio/dio.dart';
 
@@ -19,7 +20,9 @@ class ApiConstance {
   static const String updateBookingStatusEndPoint = '/update-booking-status?';
   static const String getBookingEndPoint = '/get-bookings?';
   static const String getFacilitiesEndPoint = '/facilities';
-  static const String searchEndPoint = '/search-hotels?';
+  static const String searchEndPoint ='/search-hotels?';
+
+  static String searchHotelPath(SearchParameters parameters) => '$baseUrl/search-hotels?name=${parameters.name}';
 }
 
 final Dio dio = Dio(
@@ -29,3 +32,4 @@ final Dio dio = Dio(
     connectTimeout: 5000,
   ),
 );
+

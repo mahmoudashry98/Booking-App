@@ -1,11 +1,14 @@
 import 'package:booking_app/app/auth/presentation/controller/Auth_event.dart';
 import 'package:booking_app/app/auth/presentation/controller/Auth_state.dart';
 import 'package:booking_app/app/auth/presentation/controller/auth_bloc.dart';
+
+
 import 'package:booking_app/config/routes/app_routes.dart';
 import 'package:booking_app/core/network/api_constance.dart';
 import 'package:booking_app/core/utils/request_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,19 +16,22 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var authBloc = BlocProvider.of<AuthBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
         actions: [
           TextButton(
-              onPressed: () {
-                authBloc.add(ProfileInfoEvent());
-                Navigator.pushNamed(context, AppRouts.profileInfoScreenRoute);
-              },
-              child: const Text(
-                'Profile Info',
-                style: TextStyle(color: Colors.red),
-              )),
+            onPressed: () {
+              authBloc.add(ProfileInfoEvent());
+              Navigator.pushNamed(context, AppRouts.profileInfoScreenRoute);
+            },
+            child: const Text(
+              'Profile Info',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+          
           TextButton(
               onPressed: () {
                 authBloc.add(UpdateProfileEvent());

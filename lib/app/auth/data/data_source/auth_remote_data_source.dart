@@ -5,6 +5,7 @@ import 'package:booking_app/app/auth/domain/use_cases/update_profile_usecase.dar
 import 'package:booking_app/core/network/api_constance.dart';
 import 'package:booking_app/core/network/status.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 abstract class AuthBaseRemoteDataSource {
   Future<AuthModel> postLogin({
@@ -75,6 +76,10 @@ class AuthRemoteDataSource extends AuthBaseRemoteDataSource {
       if (!isMultipart) 'Accept': 'application/json',
       if (token != null) 'token': token,
     };
+     debugPrint('URL => ${dio.options.baseUrl + ApiConstance.loginEndPoint}');
+    debugPrint('Header => ${dio.options.headers.toString()}');
+    debugPrint('Body => $data');
+   
 
     var response = await dio.post(ApiConstance.loginEndPoint, queryParameters: {
       'email': loginParameters.email,
