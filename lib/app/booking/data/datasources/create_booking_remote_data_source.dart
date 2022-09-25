@@ -1,9 +1,10 @@
-import 'package:booking_app/app/explore/data/models/hotel_model.dart';
 import 'package:booking_app/core/network/api_constance.dart';
 import 'package:dio/dio.dart';
 
-abstract class ExploreBaseRemoteDataSource {
-  Future<List<HotelModel>> getHotelDataSource({
+import '../models/create_booking_model.dart';
+
+abstract class CreateBookingBaseRemoteDataSource {
+  Future<CreateBookingModel> CreateBookingDataSource({
     String? base,
     String? endPoint,
     dynamic data,
@@ -15,9 +16,9 @@ abstract class ExploreBaseRemoteDataSource {
   });
 }
 
-class ExploreRemoteDataSource extends ExploreBaseRemoteDataSource {
+class CreateBookingRemoteDataSource extends CreateBookingBaseRemoteDataSource {
   @override
-  Future<List<HotelModel>> getHotelDataSource(
+  Future<CreateBookingModel> CreateBookingDataSource(
       {String? base,
       String? endPoint,
       data,
@@ -29,7 +30,6 @@ class ExploreRemoteDataSource extends ExploreBaseRemoteDataSource {
     if (timeOut != null) {
       dio.options.connectTimeout = timeOut;
     }
-
     dio.options.headers = {
       if (isMultipart) 'Content-Type': 'multipart/form-data',
       if (!isMultipart) 'Content-Type': 'application/json',
@@ -37,15 +37,9 @@ class ExploreRemoteDataSource extends ExploreBaseRemoteDataSource {
       if (token != null) 'token': token,
     };
 
-    var response = await dio.get(ApiConstance.getHotelsEndPoint);
-    if (response.data['status']['type'] == '1' && response.statusCode == 200) {
-      print(response);
-      return List<HotelModel>.from((response.data['data']['data'] as List)
-          .map((e) => HotelModel.fromjson(e)));
-    } else if (response.data['status']['type'] == '0' &&
-        response.statusCode == 200) {
-      // statusModel = StatusModel.fromJson(response.data['status']);
-      throw Exception();
+    var response = await dio.post(ApiConstance.createBookingEndPoint);
+    if (response.statusCode == 200) {
+      return CreateBookingModel.fromJson(response.data['status']);
     } else {
       throw Exception();
     }
