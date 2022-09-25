@@ -11,42 +11,19 @@ class GetHotelsUseCase extends BaseUseCase<List<Hotel>, HotelParameters> {
 
   @override
   Future<Either<dynamic, List<Hotel>>> call(HotelParameters parameters) async {
-    return await baseRepository.getHotels(parameters:parameters);
+    return await baseRepository.getHotels(parameters: parameters);
   }
 }
 
 class HotelParameters extends Equatable {
   final int? count;
-  final String? name;
-  final String? address;
-  final String? maxPrice;
-  final String? minPrice;
-  final String? lat;
-  final String? log;
-  final String? distance;
 
-  const HotelParameters(
-    {
+  const HotelParameters({
     this.count,
-    this.name,
-    this.address,
-    this.maxPrice,
-    this.minPrice,
-    this.lat,
-    this.log,
-    this.distance,
-    }
-  );
+  });
 
   @override
   List<Object?> get props => [
-    count,
-    name,
-    address,
-    maxPrice,
-    minPrice,
-    lat,
-    log,
-    distance
-  ];
+        count,
+      ];
 }

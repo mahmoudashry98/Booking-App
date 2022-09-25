@@ -4,4 +4,8 @@ import 'package:dartz/dartz.dart';
 
 abstract class ExploreBaseRepository {
   Future<Either<dynamic, List<Hotel>>> getHotels({required HotelParameters parameters});
+
+  
 }
+
+

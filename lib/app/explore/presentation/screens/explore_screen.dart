@@ -2,10 +2,11 @@ import 'package:booking_app/app/explore/presentation/controller/explore_bloc.dar
 import 'package:booking_app/app/explore/presentation/controller/explore_event.dart';
 import 'package:booking_app/app/explore/presentation/controller/explore_state.dart';
 import 'package:booking_app/config/routes/app_routes.dart';
-import 'package:booking_app/core/services/service_locator.dart';
 import 'package:booking_app/core/utils/request_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../config/services/service_locator.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({Key? key}) : super(key: key);

@@ -41,16 +41,18 @@ class ExploreRemoteDataSource extends ExploreBaseRemoteDataSource {
       if (token != null) 'token': token,
     };
 
-    debugPrint('URL => ${dio.options.baseUrl + ApiConstance.getHotelsEndPoint}');
+    debugPrint(
+        'URL => ${dio.options.baseUrl + endPoint!}');
     debugPrint('Header => ${dio.options.headers.toString()}');
     debugPrint('Body => $data');
     debugPrint('Query => $query');
-  
 
-    
-    var response = await dio.get(ApiConstance.getHotelsEndPoint, queryParameters: {
-      'count': hotelParameters.count,
-    });
+    var response = await dio.get(
+      ApiConstance.getHotelsEndPoint,
+      queryParameters: {
+        'count': hotelParameters.count,
+      },
+    );
     if (response.data['status']['type'] == '1' && response.statusCode == 200) {
       print(response);
       return List<HotelModel>.from((response.data['data']['data'] as List)

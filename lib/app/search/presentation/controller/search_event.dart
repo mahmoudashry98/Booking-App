@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
 
-
-abstract class SearchEvent extends Equatable{
+abstract class SearchEvent extends Equatable {
   const SearchEvent();
   @override
   List<Object?> get props => [];
 }
 
-class GetSearchHotelsEvent extends SearchEvent {}
+class GetSearchEvent extends SearchEvent {}
