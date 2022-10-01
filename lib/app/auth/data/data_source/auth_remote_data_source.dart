@@ -5,7 +5,7 @@ import 'package:booking_app/app/auth/domain/use_cases/update_profile_usecase.dar
 import 'package:booking_app/core/network/api_constance.dart';
 import 'package:booking_app/core/network/status.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class AuthBaseRemoteDataSource {
   Future<AuthModel> postLogin({
@@ -76,18 +76,21 @@ class AuthRemoteDataSource extends AuthBaseRemoteDataSource {
       if (!isMultipart) 'Accept': 'application/json',
       if (token != null) 'token': token,
     };
-     debugPrint('URL => ${dio.options.baseUrl + ApiConstance.loginEndPoint}');
+    debugPrint('URL => ${dio.options.baseUrl + ApiConstance.loginEndPoint}');
     debugPrint('Header => ${dio.options.headers.toString()}');
     debugPrint('Body => $data');
-   
 
     var response = await dio.post(ApiConstance.loginEndPoint, queryParameters: {
       'email': loginParameters.email,
       'password': loginParameters.password,
     });
-    if (response.statusCode == 200) {
+    if (response.data['status']['type'] == '1' && response.statusCode == 200) {
       statusModel = StatusModel.fromJson(response.data['status']);
       return AuthModel.fromJson(response.data);
+    } else if (response.data['status']['type'] == '0' &&
+        response.statusCode == 200) {
+      statusModel = StatusModel.fromJson(response.data['status']);
+      throw Exception();
     } else {
       throw Exception();
     }
@@ -126,7 +129,6 @@ class AuthRemoteDataSource extends AuthBaseRemoteDataSource {
 
     if (response.statusCode == 200) {
       registerstatusModel = StatusModel.fromJson(response.data['status']);
-
       return AuthModel.fromJson(response.data);
     } else {
       throw Exception();
@@ -179,10 +181,19 @@ class AuthRemoteDataSource extends AuthBaseRemoteDataSource {
     int? timeOut,
     bool isMultipart = false,
   }) async {
+    FormData? formData;
     if (timeOut != null) {
       dio.options.connectTimeout = timeOut;
     }
-
+    if (updateProfileParameters.image != null) {
+      isMultipart = true;
+      String fileName = updateProfileParameters.image!.path.split('/').last;
+      formData = FormData.fromMap({
+        "image": await MultipartFile.fromFile(
+            updateProfileParameters.image!.path,
+            filename: fileName),
+      });
+    }
     dio.options.headers = {
       if (isMultipart) 'Content-Type': 'multipart/form-data',
       if (!isMultipart) 'Content-Type': 'application/json',
@@ -190,12 +201,18 @@ class AuthRemoteDataSource extends AuthBaseRemoteDataSource {
       if (token != null) 'token': token,
     };
 
-    var response = await dio
-        .post(ApiConstance.updateProfileInfoEndPoint, queryParameters: {
-      'name': updateProfileParameters.name,
-      'email': updateProfileParameters.email,
-      //  'image': updateProfileParameters.image,
-    });
+    var response = formData == null
+        ? await dio
+            .post(ApiConstance.updateProfileInfoEndPoint, queryParameters: {
+            'name': updateProfileParameters.name,
+            'email': updateProfileParameters.email,
+          })
+        : await dio.post(ApiConstance.updateProfileInfoEndPoint,
+            data: formData,
+            queryParameters: {
+                'name': updateProfileParameters.name,
+                'email': updateProfileParameters.email,
+              });
 
     if (response.statusCode == 200) {
       updateProfileStatusModel = StatusModel.fromJson(response.data['status']);
@@ -204,4 +221,14 @@ class AuthRemoteDataSource extends AuthBaseRemoteDataSource {
       throw Exception();
     }
   }
+
+//   Future<String> uploadImage(File file) async {
+//     String fileName = file.path.split('/').last;
+//     FormData formData = FormData.fromMap({
+//         "image":
+//             await MultipartFile.fromFile(file.path, filename:fileName),
+//     });
+//     response = await dio.post("/info", data: formData);
+//     return response.data;
+// }
 }

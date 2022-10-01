@@ -1,3 +1,4 @@
+
 import 'package:booking_app/app/search/domain/usecase/get_search_usecase.dart';
 import 'package:dartz/dartz.dart';
 
@@ -13,18 +14,17 @@ class SearchRepository extends SearchBaseRepository {
   SearchRepository(this.baseSearchRepository);
 
   @override
-  Future<Either<dynamic, List<Search>>> getSearch(
-    {required SearchParameters parameters}
-  ) async {
-   try{
-     var response = await baseSearchRepository.getSearchDataSource(
-      searchParameters: parameters,
-    );
-    return Right(response);
-   }catch(e){
-     return Left(NetworkExceptions.getDioException(e));
-   }
+  Future<Either<dynamic, Data>> getSearch(
+      {required SearchParameters parameters}) async {
+    try {
+      var response = await baseSearchRepository.getSearchDataSource(
+        searchParameters: parameters,
+      );
+      
+      return Right(response);
+    } catch (e) {
+      return Left(NetworkExceptions.getDioException(e));
+    }
   }
+
 }
-
-

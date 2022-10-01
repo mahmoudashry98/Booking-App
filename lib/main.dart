@@ -1,18 +1,24 @@
-import 'package:booking_app/app/auth/presentation/controller/Auth_event.dart';
-import 'package:booking_app/app/auth/presentation/controller/auth_bloc.dart';
-import 'package:booking_app/app/search/presentation/controller/search_event.dart';
+import 'package:booking_app/app/auth/data/local/cached_helper.dart';
+import 'package:booking_app/app/auth/presentation/controller/cubit/auth_cubit.dart';
+import 'package:booking_app/app/auth/presentation/controller/observer/bloc_observer.dart';
+import 'package:booking_app/app/auth/presentation/screens/splach_screen.dart';
+import 'package:booking_app/app/booking/presentation/cubit/booking_cubit.dart';
+import 'package:booking_app/app/explore/presentation/controller/cubit/explore_cubit.dart';
+import 'package:booking_app/app/search/presentation/controller/cubit.dart';
 
-import 'package:booking_app/config/routes/app_routes.dart';
-
+import 'package:booking_app/core/network/api_constance.dart';
+import 'package:booking_app/home_Screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'app/search/presentation/controller/search_bloc.dart';
-import 'app/search/presentation/screens/search_screen.dart';
+import 'package:sizer/sizer.dart';
 import 'config/services/service_locator.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CachedHelper.initSharedPref();
+  Bloc.observer = MyBlocObserver();
   ServicesLocator().init();
+  token = CachedHelper.getData(key: "token");
   runApp(const MyApp());
 }
 
@@ -24,20 +30,25 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<AuthBloc>()..add(LoginEvent()),
+          create: (context) => sl<AuthCubit>(),
         ),
-       BlocProvider(
-          create: (context) => sl<SearchBloc>()..add(GetSearchEvent()),
+        BlocProvider(
+          create: (context) => sl<SearchCubit>()..getSearch(),
         ),
+        BlocProvider(
+            create: ((context) =>
+                ExploreCubit(getHotelsUseCase: sl())..getHotels())),
+        BlocProvider(create: (context) => sl<BookingCubit>()),
       ],
-      child: MaterialApp(
-        title: 'Booking App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-       // routes: routes,
-        home: const SearchScreen(),
-      ),
+      child: Sizer(builder: (context, orientation, deviceType) {
+        return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Booking App',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: token != null ? HomeLayOut() : const SplachScreen());
+      }),
     );
   }
 }
