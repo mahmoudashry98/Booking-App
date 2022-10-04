@@ -55,19 +55,19 @@ class TripsScren extends StatelessWidget {
                     Tab(
                       child: CustomText(
                         text: 'upcomming ',
-                        size: 12.sp,
+                        size: 10.sp,
                       ),
                     ),
                     Tab(
                       child: CustomText(
                         text: 'completed',
-                        size: 12.sp,
+                        size: 10.sp,
                       ),
                     ),
                     Tab(
                       child: CustomText(
                         text: 'cancelled ',
-                        size: 12.sp,
+                        size: 10.sp,
                       ),
                     )
                   ],

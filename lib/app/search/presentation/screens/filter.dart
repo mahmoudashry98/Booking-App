@@ -2,12 +2,10 @@ import 'package:booking_app/app/explore/presentation/widget/hotel_card.dart';
 import 'package:booking_app/app/search/presentation/controller/cubit.dart';
 import 'package:booking_app/core/utils/app_theme_colors.dart';
 import 'package:booking_app/core/utils/media_query_values.dart';
-
 import 'package:booking_app/core/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../config/routes/app_routes.dart';
+import 'package:sizer/sizer.dart';
 import '../controller/state.dart';
 
 class FilterScreen extends StatefulWidget {
@@ -137,123 +135,132 @@ class _FilterScreenState extends State<FilterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: Colors.teal[400],
-                                value: isAC,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isAC = value!;
-                                  });
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  activeColor: Colors.teal[400],
+                                  value: isAC,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isAC = value!;
+                                    });
 
-                                  if (value = true) {
-                                    facilities.add(5);
-                                  }
-                                },
-                              ),
-                              CustomText(
-                                text: searchCubit
-                                    .listSearch[0].facilities[0].name,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: Colors.teal[400],
-                                value: isWifi,
-                                onChanged: (value) {
-                                  setState(() {
                                     if (value = true) {
-                                      facilities.add(6);
+                                      facilities.add(5);
                                     }
-                                    isWifi = value!;
-                                  });
-                                },
-                              ),
-                              CustomText(
+                                  },
+                                ),
+                                CustomText(
+                                  size: 12.sp,
                                   text: searchCubit
-                                      .listSearch[0].facilities[1].name),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: Colors.teal[400],
-                                value: isSeaView,
-                                onChanged: (value) {
-                                  setState(() {
-                                    if (value = true) {
-                                      facilities.add(9);
-                                    }
-                                    isSeaView = value!;
-                                  });
-                                },
-                              ),
-                              CustomText(
-                                text: searchCubit
-                                    .listSearch[0].facilities[2].name,
-                              ),
-                            ],
-                          ),
-                        ],
+                                      .listSearch[0].facilities[0].name,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  activeColor: Colors.teal[400],
+                                  value: isWifi,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value = true) {
+                                        facilities.add(6);
+                                      }
+                                      isWifi = value!;
+                                    });
+                                  },
+                                ),
+                                CustomText(
+                                    size: 12.sp,
+                                    text: searchCubit
+                                        .listSearch[0].facilities[1].name),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  activeColor: Colors.teal[400],
+                                  value: isSeaView,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value = true) {
+                                        facilities.add(9);
+                                      }
+                                      isSeaView = value!;
+                                    });
+                                  },
+                                ),
+                                CustomText(
+                                  size: 12.sp,
+                                  text: searchCubit
+                                      .listSearch[0].facilities[2].name,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         width: context.width * 0.2,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: Colors.teal[400],
-                                value: isKitchen,
-                                onChanged: (value) {
-                                  setState(() {
-                                    if (value = true) {
-                                      facilities.add(10);
-                                    }
-                                    isKitchen = value!;
-                                  });
-                                },
-                              ),
-                              CustomText(
-                                text: searchCubit
-                                    .listSearch[0].facilities[3].name,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: Colors.teal[400],
-                                value: isGarden,
-                                onChanged: (value) {
-                                  setState(() {
-                                    if (value = true) {
-                                      facilities.add(7);
-                                    }
-                                    isGarden = value!;
-                                  });
-                                },
-                              ),
-                              CustomText(
-                                text: searchCubit
-                                    .listSearch[6].facilities[2].name,
-                              ),
-                            ],
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  activeColor: Colors.teal[400],
+                                  value: isKitchen,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value = true) {
+                                        facilities.add(10);
+                                      }
+                                      isKitchen = value!;
+                                    });
+                                  },
+                                ),
+                                CustomText(
+                                  size: 12.sp,
+                                  text: searchCubit
+                                      .listSearch[0].facilities[3].name,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  activeColor: Colors.teal[400],
+                                  value: isGarden,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value = true) {
+                                        facilities.add(7);
+                                      }
+                                      isGarden = value!;
+                                    });
+                                  },
+                                ),
+                                CustomText(
+                                  size: 12.sp,
+                                  text: searchCubit
+                                      .listSearch[6].facilities[2].name,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -392,9 +399,8 @@ class _FilterScreenState extends State<FilterScreen> {
                   maxPrice: values.end,
                   facilities: facilities);
 
-              Navigator.pushReplacementNamed(
+              Navigator.pop(
                 context,
-                AppRouts.searchScreenRoute,
               );
             },
             child: const CustomButton(

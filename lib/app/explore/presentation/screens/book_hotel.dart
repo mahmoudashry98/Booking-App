@@ -1,7 +1,13 @@
+import 'dart:ui';
+import 'package:booking_app/app/booking/presentation/cubit/booking_cubit.dart';
+import 'package:booking_app/app/booking/presentation/cubit/booking_state.dart';
 import 'package:booking_app/app/explore/domain/entities/hotel_data.dart';
+import 'package:booking_app/app/explore/presentation/widget/hotel_card.dart';
 import 'package:booking_app/core/utils/media_query_values.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:sizer/sizer.dart';
 import '../../../../core/utils/app_theme_colors.dart';
 import '../../../../core/widgets/custom_text.dart';
 // import '../widget/hotel_card.dart';
@@ -22,6 +28,32 @@ class BookHotelScreen extends StatelessWidget {
             SliverAppBar(
               floating: true,
               pinned: true,
+              actions: [
+                Container(
+                  margin: EdgeInsets.only(left: 2.h),
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      shape: BoxShape.circle),
+                  child: IconButton(
+                      icon: const Icon(Icons.favorite_outline),
+                      onPressed: () {}),
+                ),
+                SizedBox(
+                  width: 1.h,
+                )
+              ],
+              leadingWidth: 14.w,
+              leading: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    shape: BoxShape.circle),
+                child: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      BlocProvider.of<BookingCubit>(context).isBooking = false;
+                      Navigator.pop(context);
+                    }),
+              ),
               // collapsedHeight: 150,
               backgroundColor: Colors.brown,
               bottom: PreferredSize(
@@ -32,9 +64,131 @@ class BookHotelScreen extends StatelessWidget {
               expandedHeight: context.height * 1,
               toolbarHeight: 80,
               flexibleSpace: FlexibleSpaceBar(
-                background: ImageWidget(
-                    url:
-                        'http://api.mahmoudtaha.com/images/${hotelDataEntities.images[0]}'),
+                background: Stack(
+                  children: [
+                    ImageWidget(
+                        url:
+                            'http://api.mahmoudtaha.com/images/${hotelDataEntities.images[0]}'),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 5.h),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                          child: Container(
+                            width: double.infinity,
+                            height: 28.h,
+                            margin: EdgeInsets.symmetric(horizontal: 4.w),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.grey.shade900.withOpacity(0.3),
+                            ),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 35, sigmaY: 35),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w,
+                                  vertical: 3.h,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomText(
+                                      text: hotelDataEntities.name,
+                                      color: AppColors.kwhite,
+                                      fontWeight: FontWeight.bold,
+                                      textOverflow: TextOverflow.clip,
+                                      maxLines: 1,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: CustomText(
+                                            text: hotelDataEntities.address,
+                                            color:
+                                                Colors.white.withOpacity(0.9),
+                                            size: 14,
+                                            textOverflow: TextOverflow.clip,
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                        CustomText(
+                                          text: '\$${hotelDataEntities.price}',
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          size: 22,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        RatingBar.builder(
+                                          initialRating: double.parse(
+                                              (hotelDataEntities.rate)),
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemSize: 22,
+                                          // itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                          itemBuilder: (context, _) => Icon(
+                                            Icons.star,
+                                            color: Colors.teal[400],
+                                          ),
+                                          onRatingUpdate: (rating) {
+                                            // print(rating);
+                                          },
+                                        ),
+                                        CustomText(
+                                          text: ' 80 Reviews',
+                                          color: Colors.white.withOpacity(0.9),
+                                          size: 14,
+                                        ),
+                                        const Spacer(),
+                                        CustomText(
+                                          text: '/per night',
+                                          color: Colors.white.withOpacity(0.9),
+                                          size: 14,
+                                        ),
+                                      ],
+                                    ),
+                                    BlocBuilder<BookingCubit, BookingState>(
+                                      builder: (context, state) {
+                                        var cubit = BookingCubit.get(context);
+                                        return InkWell(
+                                          onTap: () {
+                                            if (cubit.isBooking == false) {
+                                              cubit.createBooking(
+                                                  hotelId:
+                                                      hotelDataEntities.id);
+                                              cubit.isBooking = true;
+                                            } else {}
+                                          },
+                                          child: CustomButton(
+                                            text: cubit.isBooking
+                                                ? 'Done'
+                                                : 'Book now',
+                                            left: 30,
+                                            right: 30,
+                                            bottom: 10,
+                                            top: 20,
+                                            height: 0.1,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             SliverList(
@@ -69,7 +223,9 @@ class DetailsWidget extends StatelessWidget {
       initiallyExpanded: true,
       iconColor: AppColors.kGreenColor,
       title: const Center(
-        child: MoreDetailsText(),
+        child: SizedBox(
+          height: 0.1,
+        ),
       ),
       children: [
         MoreDetails(
@@ -88,9 +244,16 @@ class MoreDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
-        padding: const EdgeInsetsDirectional.only(start: 16),
+        padding: EdgeInsets.symmetric(horizontal: 4.w),
         child: Column(
           children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.h),
+              child: const MoreDetailsText(),
+            ),
+            SizedBox(
+              height: 3.h,
+            ),
             Row(
               children: [
                 Expanded(
@@ -365,13 +528,13 @@ class MoreDetailsText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: context.width * .3,
+      height: 6.h,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: AppColors.greyLight),
+          borderRadius: BorderRadius.circular(20), color: Colors.teal),
       child: const Text(
         'More Details',
-        style: TextStyle(color: AppColors.kGreyColor),
+        style: TextStyle(color: Colors.white),
       ),
     );
   }

@@ -36,6 +36,7 @@ class UpdateProfileScreen extends StatelessWidget {
           appBar: AppBar(
             leading: IconButton(
                 onPressed: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
                   Navigator.pop(context);
                 },
                 icon: const Icon(
@@ -45,6 +46,7 @@ class UpdateProfileScreen extends StatelessWidget {
             actions: [
               TextButton(
                   onPressed: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
                     if (formKey.currentState!.validate()) {
                       if (cubit.profileInfo!.name != nameController.text ||
                           cubit.profileInfo!.email != emailController.text) {
@@ -117,6 +119,7 @@ class UpdateProfileScreen extends StatelessWidget {
                         child: Center(
                           child: TextButton(
                               onPressed: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
                                 cubit.updateProfileInfo(
                                     name: nameController.text,
                                     email: emailController.text,

@@ -29,12 +29,12 @@ class UpCommingScreen extends StatelessWidget {
               return InkWell(
                 onTap: () {},
                 child: Container(
-                  height: context.height * 0.36,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     color: Colors.white,
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         height: context.height * 0.22,
@@ -70,75 +70,97 @@ class UpCommingScreen extends StatelessWidget {
                         height: 10,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 25, right: 20),
-                        child: Row(
+                        padding:
+                            EdgeInsets.only(left: 3.w, right: 3.w, bottom: 2.w),
+                        child: Column(
                           children: [
-                            Expanded(
-                              child: CustomText(
-                                text: cubit.listGetBooking[index].hotelName,
-                                color: AppColors.black,
-                                fontWeight: FontWeight.bold,
-                                size: 20,
-                                // textOverflow: TextOverflow.,
-                                maxLines: 1,
-                              ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CustomText(
+                                    text: cubit.listGetBooking[index].hotelName,
+                                    color: AppColors.black,
+                                    fontWeight: FontWeight.bold,
+                                    size: 14.sp,
+                                    // textOverflow: TextOverflow.,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                                CustomText(
+                                  text:
+                                      '\$${cubit.listGetBooking[index].hotelPrice}',
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.bold,
+                                  size: 14.sp,
+                                ),
+                              ],
                             ),
-                            const Spacer(),
-                            CustomText(
-                              text: cubit.listGetBooking[index].hotelPrice,
-                              color: AppColors.black,
-                              fontWeight: FontWeight.bold,
-                              size: 20,
+                            const SizedBox(
+                              height: 5,
                             ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25, right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: CustomText(
-                                text: '2.0Km to city',
-                                color: AppColors.greyLight,
-                                size: 14,
-                                maxLines: 2,
-                                textOverflow: TextOverflow.ellipsis,
-                              ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CustomText(
+                                    textOverflow: TextOverflow.ellipsis,
+                                    text: cubit
+                                        .listGetBooking[index].hotelAddress,
+                                    color: Colors.grey,
+                                    size: 12.sp,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ],
                             ),
-                            Icon(
-                              Icons.location_on,
-                              color: Colors.teal[400],
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 30, right: 20, bottom: 10),
-                        child: Row(
-                          children: [
-                            RatingBar.builder(
-                              initialRating: 5,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 22,
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.teal[400],
-                              ),
-                              onRatingUpdate: (rating) {},
+                            const SizedBox(
+                              height: 5,
                             ),
-                            CustomText(
-                              text: ' 80Reviews',
-                              color: AppColors.greyLight,
-                              size: 14,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  color: Colors.teal[400],
+                                ),
+                                CustomText(
+                                  text: '2.0Km to city',
+                                  color: AppColors.greyLight,
+                                  size: 12.sp,
+                                  maxLines: 2,
+                                  textOverflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RatingBar.builder(
+                                  initialRating: 5,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemSize: 22,
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    color: Colors.teal[400],
+                                  ),
+                                  onRatingUpdate: (rating) {},
+                                ),
+                                CustomText(
+                                  text: ' 80Reviews',
+                                  color: AppColors.greyLight,
+                                  size: 14,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 5,
                             ),
                           ],
                         ),

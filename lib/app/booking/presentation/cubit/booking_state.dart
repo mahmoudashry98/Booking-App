@@ -25,3 +25,5 @@ class GetBookingErrorState extends BookingState {
 
   GetBookingErrorState({required this.message});
 }
+
+class ChangeBookingState extends BookingState {}

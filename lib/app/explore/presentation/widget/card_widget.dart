@@ -66,15 +66,21 @@ class CardExploreWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 2.h),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
+                          // mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Icon(
                                   Icons.location_on,
                                   color: Colors.teal[400],
+                                  size: 17,
                                 ),
                                 CustomText(
                                   text: '2.0Km to city',
@@ -82,6 +88,9 @@ class CardExploreWidget extends StatelessWidget {
                                   size: 10.sp,
                                 ),
                               ],
+                            ),
+                            SizedBox(
+                              height: 1.5.h,
                             ),
                             RatingBar.builder(
                               initialRating: double.parse(hotel!.rate),
@@ -101,14 +110,22 @@ class CardExploreWidget extends StatelessWidget {
                             ),
                           ],
                         ),
+                        SizedBox(
+                          width: 1.8.w,
+                        ),
                         Expanded(
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               CustomText(
                                 text: '\$${hotel!.price}',
                                 color: AppColors.black,
                                 fontWeight: FontWeight.bold,
                                 size: 12.sp,
+                              ),
+                              SizedBox(
+                                height: 1.5.h,
                               ),
                               CustomText(
                                 text: '/per night',

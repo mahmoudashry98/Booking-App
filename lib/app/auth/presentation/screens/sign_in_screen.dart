@@ -1,9 +1,9 @@
 import 'package:booking_app/app/auth/presentation/controller/cubit/auth_cubit.dart';
 import 'package:booking_app/app/auth/presentation/controller/cubit/auth_state.dart';
-import 'package:booking_app/app/explore/presentation/screens/explore_screen.dart';
 import 'package:booking_app/core/utils/app_theme_colors.dart';
 
 import 'package:booking_app/core/widgets/custom_text.dart';
+import 'package:booking_app/home_Screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,8 +51,8 @@ class LoginScreen extends StatelessWidget {
                   color: Colors.white,
                   size: 14,
                 )));
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const Explore()));
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => HomeLayOut()));
           }
         },
         builder: (context, state) {
@@ -205,6 +205,7 @@ class LoginScreen extends StatelessWidget {
                           style: const TextStyle(
                             color: Colors.black,
                           ),
+                          obscureText: true,
                           decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,

@@ -25,6 +25,12 @@ class BookingCubit extends Cubit<BookingState> {
     });
   }
 
+  bool isBooking = false;
+  void changeBooking() {
+    isBooking = !isBooking;
+    emit(ChangeBookingState());
+  }
+
   List<GetBooking> listGetBooking = [];
   List<GetBooking> listCanceledBooking = [];
   List<GetBooking> listCompletedBooking = [];

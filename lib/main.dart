@@ -5,7 +5,6 @@ import 'package:booking_app/app/auth/presentation/screens/splach_screen.dart';
 import 'package:booking_app/app/booking/presentation/cubit/booking_cubit.dart';
 import 'package:booking_app/app/explore/presentation/controller/cubit/explore_cubit.dart';
 import 'package:booking_app/app/search/presentation/controller/cubit.dart';
-
 import 'package:booking_app/core/network/api_constance.dart';
 import 'package:booking_app/home_Screens.dart';
 import 'package:flutter/material.dart';
