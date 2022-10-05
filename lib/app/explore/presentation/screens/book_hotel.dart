@@ -4,6 +4,7 @@ import 'package:booking_app/app/booking/presentation/cubit/booking_state.dart';
 import 'package:booking_app/app/explore/domain/entities/hotel_data.dart';
 import 'package:booking_app/app/explore/presentation/widget/hotel_card.dart';
 import 'package:booking_app/core/utils/media_query_values.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -14,7 +15,9 @@ import '../../../../core/widgets/custom_text.dart';
 
 class BookHotelScreen extends StatelessWidget {
   final HotelDataEntities hotelDataEntities;
-  const BookHotelScreen({Key? key, required this.hotelDataEntities})
+  final int indexOfImg;
+  const BookHotelScreen(
+      {Key? key, required this.hotelDataEntities, required this.indexOfImg})
       : super(key: key);
 
   @override
@@ -68,7 +71,7 @@ class BookHotelScreen extends StatelessWidget {
                   children: [
                     ImageWidget(
                         url:
-                            'http://api.mahmoudtaha.com/images/${hotelDataEntities.images[0]}'),
+                            'http://api.mahmoudtaha.com/images/${hotelDataEntities.images[indexOfImg]}'),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
@@ -160,10 +163,16 @@ class BookHotelScreen extends StatelessWidget {
                                         return InkWell(
                                           onTap: () {
                                             if (cubit.isBooking == false) {
-                                              cubit.createBooking(
-                                                  hotelId:
-                                                      hotelDataEntities.id);
-                                              cubit.isBooking = true;
+                                              cubit
+                                                  .createBooking(
+                                                      hotelId:
+                                                          hotelDataEntities.id)
+                                                  .then((v) {
+                                                cubit.isBooking = true;
+                                                cubit.getBooking(
+                                                    typeBooking:
+                                                        TypeBooking.upcomming);
+                                              });
                                             } else {}
                                           },
                                           child: CustomButton(
@@ -498,11 +507,16 @@ class ImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.network(
-          url,
+        CachedNetworkImage(
+          imageUrl: url,
           fit: BoxFit.cover,
-          height: context.height * 1,
+          height: context.height,
         ),
+        // Image.network(
+        //   url,
+        //   fit: BoxFit.cover,
+        //   height: context.height * 1,
+        // ),
         Padding(
           padding: const EdgeInsetsDirectional.only(
             top: 500,

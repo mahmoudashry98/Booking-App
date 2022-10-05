@@ -2,8 +2,10 @@ import 'package:booking_app/app/auth/presentation/controller/cubit/auth_cubit.da
 import 'package:booking_app/app/auth/presentation/controller/cubit/auth_state.dart';
 import 'package:booking_app/core/utils/app_theme_colors.dart';
 import 'package:booking_app/core/widgets/custom_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
   UpdateProfileScreen({Key? key}) : super(key: key);
@@ -37,6 +39,7 @@ class UpdateProfileScreen extends StatelessWidget {
             leading: IconButton(
                 onPressed: () {
                   FocusManager.instance.primaryFocus?.unfocus();
+                  cubit.resetPicker();
                   Navigator.pop(context);
                 },
                 icon: const Icon(
@@ -86,12 +89,23 @@ class UpdateProfileScreen extends StatelessWidget {
                         alignment: Alignment.bottomRight,
                         children: [
                           (cubit.profileImagePicker == null
-                              ? CircleAvatar(
-                                  radius: 60,
-                                  backgroundImage: NetworkImage(image !=
-                                          'http://api.mahmoudtaha.com/images'
-                                      ? image
-                                      : 'https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?w=740&t=st=1664130177~exp=1664130777~hmac=6fb3300de9be4e9d8efe39225fe542246ea25cd847fc684ac82af0efb013dde2'))
+                              ? Container(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  height: 12.h,
+                                  width: 12.h,
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle),
+                                  child: CachedNetworkImage(
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                      fit: BoxFit.cover,
+                                      imageUrl: image !=
+                                              'http://api.mahmoudtaha.com/images'
+                                          ? image
+                                          : 'https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?w=740&t=st=1664130177~exp=1664130777~hmac=6fb3300de9be4e9d8efe39225fe542246ea25cd847fc684ac82af0efb013dde2'),
+                                )
                               : CircleAvatar(
                                   radius: 60,
                                   backgroundImage:

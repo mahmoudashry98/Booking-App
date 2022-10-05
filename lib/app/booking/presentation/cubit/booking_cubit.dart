@@ -13,7 +13,7 @@ class BookingCubit extends Cubit<BookingState> {
       : super(InitailBookingState());
   static BookingCubit get(context) => BlocProvider.of(context);
   int? bookingId;
-  void createBooking({required int hotelId}) async {
+  Future<void> createBooking({required int hotelId}) async {
     emit(CreateBookingLoadingState());
     var response = await createBookingUseCase(hotelId);
     response.fold((l) {

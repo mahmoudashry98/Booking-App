@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sizer/sizer.dart';
-import 'dart:math' as math;
 import '../../../../core/utils/app_theme_colors.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../domain/entities/hotel_data.dart';
 
 class CardExploreWidget extends StatelessWidget {
-  const CardExploreWidget({Key? key, this.hotel}) : super(key: key);
+  const CardExploreWidget({Key? key, this.hotel, this.indexOfImg})
+      : super(key: key);
   final HotelDataEntities? hotel;
-
+  final int? indexOfImg;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,7 +36,7 @@ class CardExploreWidget extends StatelessWidget {
                   bottomLeft: Radius.circular(2.h),
                 ),
                 child: Image.network(
-                  'http://api.mahmoudtaha.com/images/${hotel!.images[math.Random().nextInt(hotel!.images.length)]}',
+                  'http://api.mahmoudtaha.com/images/${hotel!.images[indexOfImg!]}',
                   fit: BoxFit.cover,
                   height: 20.h,
                 ),

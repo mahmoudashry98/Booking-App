@@ -31,7 +31,10 @@ class _HomeLayOutState extends State<HomeLayOut> {
           builder: (context, state) {
             var cubit = AppCubit.get(context);
             return Scaffold(
-              body: cubit.screens[cubit.currentIndex],
+              body: IndexedStack(
+                index: cubit.currentIndex,
+                children: cubit.screens,
+              ),
               bottomNavigationBar: BottomNavigationBar(
                 onTap: (index) {
                   cubit.changeBottomNAv(index);

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../widget/card_widget.dart';
+import 'dart:math' as math;
 
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
@@ -117,18 +118,24 @@ class _ExploreState extends State<Explore> {
                           padding: EdgeInsets.only(top: 2.h, bottom: 2.h),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) => InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: ((context) => BookHotelScreen(
-                                          hotelDataEntities:
-                                              cubit.data!.hotelData[index]))));
-                            },
-                            child: CardExploreWidget(
-                                hotel: cubit.data!.hotelData[index]),
-                          ),
+                          itemBuilder: (context, index) {
+                            int indexImg = math.Random().nextInt(
+                                cubit.data!.hotelData[index].images.length);
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) => BookHotelScreen(
+                                            hotelDataEntities:
+                                                cubit.data!.hotelData[index],
+                                            indexOfImg: indexImg))));
+                              },
+                              child: CardExploreWidget(
+                                  hotel: cubit.data!.hotelData[index],
+                                  indexOfImg: indexImg),
+                            );
+                          },
                           itemCount: cubit.data!.hotelData.length,
                         ),
                       ],
