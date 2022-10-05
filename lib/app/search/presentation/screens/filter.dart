@@ -156,10 +156,8 @@ class _FilterScreenState extends State<FilterScreen> {
                                   },
                                 ),
                                 CustomText(
-                                  size: 12.sp,
-                                  text: searchCubit
-                                      .listSearch[0].facilities[0].name,
-                                ),
+                                text: 'A/c',
+                              ),
                               ],
                             ),
                             Row(
@@ -177,10 +175,8 @@ class _FilterScreenState extends State<FilterScreen> {
                                     });
                                   },
                                 ),
-                                CustomText(
-                                    size: 12.sp,
-                                    text: searchCubit
-                                        .listSearch[0].facilities[1].name),
+                               CustomText(
+                                  text: 'Wifi'),
                               ],
                             ),
                             Row(
@@ -199,10 +195,8 @@ class _FilterScreenState extends State<FilterScreen> {
                                   },
                                 ),
                                 CustomText(
-                                  size: 12.sp,
-                                  text: searchCubit
-                                      .listSearch[0].facilities[2].name,
-                                ),
+                                text: 'Sea View',
+                              ),
                               ],
                             ),
                           ],
@@ -231,10 +225,8 @@ class _FilterScreenState extends State<FilterScreen> {
                                   },
                                 ),
                                 CustomText(
-                                  size: 12.sp,
-                                  text: searchCubit
-                                      .listSearch[0].facilities[3].name,
-                                ),
+                                text: 'Kitchen',
+                              ),
                               ],
                             ),
                             Row(
@@ -252,11 +244,9 @@ class _FilterScreenState extends State<FilterScreen> {
                                     });
                                   },
                                 ),
-                                CustomText(
-                                  size: 12.sp,
-                                  text: searchCubit
-                                      .listSearch[6].facilities[2].name,
-                                ),
+                               CustomText(
+                                text: 'Garden'
+                              ),
                               ],
                             ),
                           ],
