@@ -8,6 +8,11 @@ class AppColors {
   static const Color kRedColor = Color(0xffD91E1C);
   static const Color kGreyColor = Color(0xffECECEC);
   static const Color kBuleColor = Color(0xff00AEEF);
+  static const Color kwhite = Color.fromARGB(255, 255, 255, 255);
+  static const Color kGreenColor = Colors.teal;
+  static const Color BGreyIconColor = Color(0xffC4C2C5);
+  static const Color BBGwColor = Color(0xffF9F6F9);
+  static const Color BGreyTextColor = Color(0xffABA8AB);
 
   /// scaffold background colors
   static Color lightGrey = Colors.grey.shade100;

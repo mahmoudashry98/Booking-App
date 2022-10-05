@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:booking_app/app/auth/domain/base_repository/auth_base_repository.dart';
 import 'package:booking_app/app/auth/domain/entities/auth_entity.dart';
 import 'package:dartz/dartz.dart';
@@ -18,10 +20,10 @@ class UpdateProfileUseCase extends BaseUseCase<Auth, UpdateProfileParameters> {
 class UpdateProfileParameters extends Equatable {
   final String name;
   final String email;
-  final String image;
+  final File? image;
 
   const UpdateProfileParameters(
-      {required this.name, required this.email, required this.image});
+      {required this.name, required this.email, this.image});
 
   @override
   List<Object?> get props => [name, email, image];

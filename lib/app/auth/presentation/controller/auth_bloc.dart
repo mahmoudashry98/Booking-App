@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:booking_app/app/auth/domain/use_cases/get_profile_info_usecase.dart';
 import 'package:booking_app/app/auth/domain/use_cases/login_usecase.dart';
 import 'package:booking_app/app/auth/domain/use_cases/register_usecase.dart';
@@ -9,6 +10,7 @@ import 'package:booking_app/core/errors/network_exception.dart';
 import 'package:booking_app/core/network/api_constance.dart';
 import 'package:booking_app/core/utils/request_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUseCase loginUseCase;
@@ -25,6 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RegisterEvent>(signUp);
     on<ProfileInfoEvent>(getProfileInfo);
     on<UpdateProfileEvent>(updateProfileInfo);
+    on<GetImagePickerEvent>(getImagePicker);
   }
 
   FutureOr<void> signIn(event, emit) async {
@@ -65,9 +68,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
-  FutureOr<void> getProfileInfo(
-      ProfileInfoEvent event, Emitter<AuthState> emit) async {
-    var response = await profileInfoUseCase(token);
+  Future getProfileInfo(ProfileInfoEvent event, Emitter<AuthState> emit) async {
+    // var response = await profileInfoUseCase(token);
+    var response = await profileInfoUseCase(
+        'YeSeI81gtSatcmT1QQyxTslQHWdYdFfXzrjCZrH7Cyd4WLwttdqhJyPXOfg2');
     response.fold((l) {
       emit(state.copyWith(
         profileInfoMessage: NetworkExceptions.getErrorMessage(l),
@@ -82,27 +86,52 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
+// File('/data/user/0/com.example.booking_app/cache/image_picker4684716862649781102.jpg')
+
   FutureOr<void> updateProfileInfo(
       UpdateProfileEvent event, Emitter<AuthState> emit) async {
-    print('-------------------$token-----------------');
-    var response = await updateProfileUseCase(const UpdateProfileParameters(
-      name: 'mahmoud.ashry990',
-      email: 'mahmoud.ashry990',
-      image: 'image',
+    emit(state.copyWith(updateProfileInfoState: RequestStateUpdate.loading));
+
+    var response = await updateProfileUseCase(UpdateProfileParameters(
+      name: event.name,
+      email: event.email,
+      image: event.image,
     ));
-    print(response);
 
     response.fold((l) {
       emit(state.copyWith(
         updateProfileInfoMessage: NetworkExceptions.getErrorMessage(l),
-        updateProfileInfoState: RequestState.error,
+        updateProfileInfoState: RequestStateUpdate.error,
       ));
     }, (r) {
       emit(state.copyWith(
+        profileImagePicker: null,
+        profileImagePickerState: RequestState.loading,
         updateProfileInfo: r,
-        updateProfileInfoState: RequestState.loaded,
+        updateProfileInfoState: RequestStateUpdate.loaded,
         updateProfileInfoMessage: updateProfileStatusModel!.messageEn,
       ));
     });
+  }
+
+  var picker = ImagePicker();
+
+  FutureOr<void> getImagePicker(
+      GetImagePickerEvent event, Emitter<AuthState> emit) async {
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      emit(state.copyWith(
+          profileImagePicker: File(pickedFile.path),
+          profileImagePickerState: RequestState.loaded,
+          profileImagePickerMessage: pickedFile.path));
+      print(pickedFile.path);
+    } else {
+      emit(state.copyWith(
+        profileImagePickerState: RequestState.error,
+        profileImagePickerMessage: 'No image selected.',
+      ));
+    }
   }
 }

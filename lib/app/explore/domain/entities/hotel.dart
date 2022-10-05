@@ -1,27 +1,23 @@
+import 'package:booking_app/app/explore/domain/entities/hotel_data.dart';
 import 'package:equatable/equatable.dart';
 
-class Hotel extends Equatable {
-  final int id;
-  final String name;
-  final String disc;
-  final String price;
-  final String address;
+class Data extends Equatable {
+  final List<HotelDataEntities> hotelData;
+  final int lastPage;
+  final int total;
 
-  const Hotel(
-      {required this.id,
-      required this.name,
-      required this.disc,
-      required this.price,
-      required this.address});
+  const Data({
+    required this.hotelData,
+    required this.total,
+    required this.lastPage,
+  });
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
-      id,
-      name,
-      disc,
-      price,
-      address,
+      hotelData,
+      lastPage,
+      total,
     ];
   }
 }
