@@ -28,8 +28,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> signIn(event, emit) async {
-    var response = await loginUseCase(
-        const LoginParameters(email: 'mahmoud.ashry990', password: '123456'));
+    var response = await loginUseCase(const LoginParameters(
+      email: 'mahmoud.ashry999@@gmail.com',
+      password: '123456',
+    ));
     response.fold((l) {
       emit(state.copyWith(
         loginState: RequestState.error,
@@ -84,7 +86,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> updateProfileInfo(
       UpdateProfileEvent event, Emitter<AuthState> emit) async {
-    print('-------------------$token-----------------');
+    //print('-------------------$token-----------------');
     var response = await updateProfileUseCase(const UpdateProfileParameters(
       name: 'mahmoud.ashry990',
       email: 'mahmoud.ashry990',

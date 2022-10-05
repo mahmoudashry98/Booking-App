@@ -11,7 +11,10 @@ class AppColors {
 
   /// scaffold background colors
   static Color lightGrey = Colors.grey.shade100;
+  static Color grey = Colors.grey.shade400;
+  static const Color transparent = Color(0x8A000000);
   static const Color black = Colors.black;
+  static const Color kwhite = Colors.white;
   static Color greyLight = Colors.grey[400]!;
   static Color whiteWithOpacity = const Color.fromRGBO(255, 255, 255, 230);
 }

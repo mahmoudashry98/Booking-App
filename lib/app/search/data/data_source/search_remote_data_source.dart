@@ -1,65 +1,89 @@
 import 'package:booking_app/app/search/data/model/model.dart';
-import 'package:flutter/material.dart';
+import 'package:booking_app/app/search/domain/entities/search.dart';
+import 'package:booking_app/core/network/remote/dio.dart';
 
 import '../../../../core/network/api_constance.dart';
 import '../../domain/usecase/get_search_usecase.dart';
 
 abstract class SearchBaseRemoteDataSource {
-  Future<List<SearchModel>> getSearchDataSource({
-    String? base,
-    String? endPoint,
-    dynamic data,
-    dynamic query,
+  
+
+  SearchBaseRemoteDataSource();
+  Future<DataModel> getSearchDataSource({
     required SearchParameters searchParameters,
-    String? token,
-    int? timeOut,
-    bool isMultipart = false,
   });
 }
 
 class SearchRemoteDataSource extends SearchBaseRemoteDataSource {
+  SearchRemoteDataSource();
+  
   @override
-  Future<List<SearchModel>> getSearchDataSource({
-    String? base,
-    String? endPoint,
-    data,
-    query,
+  Future<DataModel> getSearchDataSource({
     required SearchParameters searchParameters,
-    String? token,
-    int? timeOut,
-    bool isMultipart = false,
   }) async {
-    if (timeOut != null) {
-      dio.options.connectTimeout = timeOut;
+    Map<String, dynamic>? query;
+    if (searchParameters.facilities != null) {
+      query = {
+        'name': searchParameters.name,
+        'min_price': searchParameters.minPrice,
+        'max_price': searchParameters.maxPrice,
+        ...searchParameters.facilities!,
+        'latitude': searchParameters.lantitude,
+        'longitude': searchParameters.langtitude,
+        'count': searchParameters.page,
+        'page': searchParameters.page,
+        
+      };
     }
-    dio.options.headers = {
-      if (isMultipart) 'Content-Type': 'multipart/form-data',
-      if (!isMultipart) 'Content-Type': 'application/json',
-      if (!isMultipart) 'Accept': 'application/json',
-      if (token != null) 'token': token,
-    };
-    debugPrint(
-        'URL => ${dio.options.baseUrl + ApiConstance.searchHotelPath(searchParameters)}');
-    debugPrint('Header => ${dio.options.headers.toString()}');
-    debugPrint('Body => $data');
-    debugPrint('Query => $query');
 
-    var response = await dio.get( 
+    var response2 = await dio.get(
       ApiConstance.searchEndPoint,
-      queryParameters: {
-        'name':'With images'
-      },
+      queryParameters: query ??
+          {
+            'address': searchParameters.name,
+            'min_price': searchParameters.minPrice,
+            'max_price': searchParameters.maxPrice,
+            'latitude': searchParameters.lantitude,
+            'longitude': searchParameters.langtitude,
+            'count': searchParameters.count,
+            'page': searchParameters.page,
+          },
     );
-    if (response.data['status']['type'] == '1' && response.statusCode == 200) {
-      print(response);
-      return List<SearchModel>.from((response.data['data']['data'] as List)
-          .map((e) => SearchModel.fromJson(e)));
-    } else if (response.data['status']['type'] == '0' &&
-        response.statusCode == 200) {
-      // statusModel = StatusModel.fromJson(response.data['status']);
-      throw Exception();
+    var response1 = await dio.get(
+      ApiConstance.searchEndPoint,
+      queryParameters: query ??
+          {
+            'name': searchParameters.name,
+            'min_price': searchParameters.minPrice,
+            'max_price': searchParameters.maxPrice,
+            'latitude': searchParameters.lantitude,
+            'longitude': searchParameters.langtitude,
+            'count': searchParameters.count,
+            'page': searchParameters.page,
+          },
+    );
+
+    if ((response1.data['data']['data'] as List).length >
+        (response2.data['data']['data'] as List).length) {
+      if (response1.data['status']['type'] == '1' &&
+          response1.statusCode == 200) {
+        print('*********************${response1.data}');
+        print('*********************${response2.data}');
+
+        return DataModel.fromJson(response1.data);
+      } else {
+        print('*********************${response2.data}');
+        throw Exception();
+      }
     } else {
-      throw Exception();
+      print('*********************${response2.data}');
+      if (response2.data['status']['type'] == '1' &&
+          response2.statusCode == 200) {
+        print('*********************${response2.data}');
+        return DataModel.fromJson(response2.data);
+      } else {
+        throw Exception();
+      }
     }
   }
 }

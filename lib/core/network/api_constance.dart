@@ -1,5 +1,6 @@
 import 'package:booking_app/app/search/domain/usecase/get_search_usecase.dart';
 import 'package:booking_app/core/network/status.dart';
+import 'package:booking_app/core/network/test_model.dart';
 import 'package:dio/dio.dart';
 
 StatusModel? statusModel;
@@ -20,16 +21,19 @@ class ApiConstance {
   static const String updateBookingStatusEndPoint = '/update-booking-status?';
   static const String getBookingEndPoint = '/get-bookings?';
   static const String getFacilitiesEndPoint = '/facilities';
-  static const String searchEndPoint ='/search-hotels?';
+  static const String searchEndPoint = '/search-hotels?';
+  static const String baseUrlImage = 'http://api.mahmoudtaha.com/images/';
 
-  static String searchHotelPath(SearchParameters parameters) => '$baseUrl/search-hotels?name=${parameters.name}';
+  static String searchHotelPath(SearchParameters parameters) =>
+      '$baseUrl/search-hotels?name=${parameters.name}';
 }
+
+
 
 final Dio dio = Dio(
   BaseOptions(
-    baseUrl: ApiConstance.baseUrl,
+    baseUrl: ApiConstance.baseUrl ,
     receiveDataWhenStatusError: true,
     connectTimeout: 5000,
   ),
 );
-

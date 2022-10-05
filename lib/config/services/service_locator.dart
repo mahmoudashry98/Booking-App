@@ -12,14 +12,13 @@ import 'package:booking_app/app/explore/domain/base_repository/explore_base_repo
 import 'package:booking_app/app/explore/domain/use_cases/get_hotels_usecase.dart';
 import 'package:booking_app/app/explore/presentation/controller/explore_bloc.dart';
 import 'package:booking_app/app/search/domain/usecase/get_search_usecase.dart';
-import 'package:booking_app/app/search/presentation/controller/search_bloc.dart';
+import 'package:booking_app/app/search/presentation/controller/cubit.dart';
+import 'package:booking_app/core/network/remote/dio.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../app/search/data/data_source/search_remote_data_source.dart';
 import '../../app/search/data/repository/search_repository.dart';
 import '../../app/search/domain/base_repository/search_base_repository.dart';
-
-
 
 final sl = GetIt.instance;
 
@@ -27,8 +26,7 @@ class ServicesLocator {
   void init() {
     ///BLoc
 
-
-    sl.registerFactory(() => SearchBloc(getSearchUseCase: sl()));
+    sl.registerFactory(() => SearchCubit(getSearchUseCase: sl()));
     sl.registerFactory(() => ExploreBloc(getHotelsUseCase: sl()));
     sl.registerFactory(() => AuthBloc(
         loginUseCase: sl(),
@@ -37,7 +35,8 @@ class ServicesLocator {
         updateProfileUseCase: sl()));
 
     ///Use cases
-    sl.registerLazySingleton(() => GetSearchUseCase(baseSearchRepository: sl()));
+    sl.registerLazySingleton(
+        () => GetSearchUseCase(baseSearchRepository: sl()));
     sl.registerLazySingleton(() => GetHotelsUseCase(baseRepository: sl()));
     sl.registerLazySingleton(() => LoginUseCase(baseRepository: sl()));
     sl.registerLazySingleton(() => RegisterUseCase(authBaseRepository: sl()));
@@ -49,7 +48,7 @@ class ServicesLocator {
     ///BaseRepository
     sl.registerLazySingleton<SearchBaseRepository>(
         () => SearchRepository(sl()));
-        sl.registerLazySingleton<ExploreBaseRepository>(
+    sl.registerLazySingleton<ExploreBaseRepository>(
         () => ExploreRepository(sl()));
     sl.registerLazySingleton<AuthBaseRepository>(() => AuthRepository(sl()));
 
@@ -60,5 +59,9 @@ class ServicesLocator {
         () => ExploreRemoteDataSource());
     sl.registerLazySingleton<AuthBaseRemoteDataSource>(
         () => AuthRemoteDataSource());
+
+        sl.registerLazySingleton<DioHelper>(
+        () => DioImpl(),
+  );
   }
 }

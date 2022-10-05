@@ -32,7 +32,7 @@ class ExploreScreen extends StatelessWidget {
             children: [
               BlocBuilder<ExploreBloc, ExploreState>(
                 builder: (context, state) {
-                  print(state.hotels.length);
+                  //print(state.hotels.length);
                   switch (state.getListHotelState) {
                     case RequestState.loading:
                       return const Center(child: CircularProgressIndicator());

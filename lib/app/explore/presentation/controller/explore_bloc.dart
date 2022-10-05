@@ -17,9 +17,9 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
           count: 4,
         ),
       );
-      print(response);
+     // print(response);
       response.fold((l) {
-        print(NetworkExceptions.getErrorMessage(l));
+        //(NetworkExceptions.getErrorMessage(l));
         emit(state.copyWith(
             getListHotelState: RequestState.error,
             getListHotelMessage: NetworkExceptions.getErrorMessage(l)));
