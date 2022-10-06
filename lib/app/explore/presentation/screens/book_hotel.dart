@@ -58,7 +58,7 @@ class BookHotelScreen extends StatelessWidget {
                     }),
               ),
               // collapsedHeight: 150,
-              backgroundColor: Colors.brown,
+              backgroundColor: AppColors.whiteWithOpacity,
               bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(0),
                   child: Container(

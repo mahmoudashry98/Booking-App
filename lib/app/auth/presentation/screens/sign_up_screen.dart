@@ -319,7 +319,11 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 30),
                   state is RegisterLoadingState
-                      ? const Center(child: CircularProgressIndicator())
+                      ?  Center(child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+              Colors.teal.shade400,
+            ),
+                      ))
                       : Container(
                           height: 45,
                           margin: const EdgeInsets.symmetric(horizontal: 10),

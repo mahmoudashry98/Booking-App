@@ -67,7 +67,7 @@ class CardWidget extends StatelessWidget {
                           child: SizedBox(
                               height: 25,
                               width: 25,
-                              child: CircularProgressIndicator(
+                              child: InCircularProgressdicator(
                                 color: Colors.teal[400],
                                 strokeWidth: 5,
                               )),

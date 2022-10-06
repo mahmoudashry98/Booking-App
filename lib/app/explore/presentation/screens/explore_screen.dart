@@ -51,7 +51,11 @@ class _ExploreState extends State<Explore> {
             var cubit = ExploreCubit.get(context);
             print('rebuild');
             if (state is ExploreLoadingState) {
-              return const Center(child: CircularProgressIndicator());
+              return  Center(child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+              Colors.teal.shade400,
+            ),
+              ));
             } else if (state is ExploreErrorState) {
               return Center(
                 child: Text(
