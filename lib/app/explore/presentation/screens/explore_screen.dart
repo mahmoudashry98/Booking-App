@@ -3,6 +3,7 @@ import 'package:booking_app/app/explore/presentation/controller/cubit/explore_st
 import 'package:booking_app/app/explore/presentation/screens/book_hotel.dart';
 import 'package:booking_app/app/explore/presentation/widget/my_text_field.dart';
 import 'package:booking_app/app/search/presentation/screens/search.dart';
+import 'package:booking_app/config/routes/app_routes.dart';
 import 'package:booking_app/core/utils/app_theme_colors.dart';
 import 'package:booking_app/core/widgets/custom_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -71,10 +72,19 @@ class _ExploreState extends State<Explore> {
                         child: Stack(
                           children: [
                             Slider(),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 6.h, left: 2.6.h, right: 2.6.h),
-                              child: const MyTextField(),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SearchScreen()));
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 6.h, left: 2.6.h, right: 2.6.h),
+                                child: const MyTextField(),
+                              ),
                             ),
                             AnimatedOpacity(
                               duration: const Duration(seconds: 1),
