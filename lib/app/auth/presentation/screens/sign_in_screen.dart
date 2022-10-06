@@ -5,6 +5,7 @@ import 'package:booking_app/core/utils/app_theme_colors.dart';
 import 'package:booking_app/core/widgets/custom_text.dart';
 import 'package:booking_app/home_Screens.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -154,12 +155,14 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(height: 5),
                         TextFormField(
                           controller: emailController,
+                          
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'You must enter email';
                             }
                             return null;
                           },
+                          keyboardType: TextInputType.emailAddress,
                           style: const TextStyle(
                             color: Colors.black,
                           ),
