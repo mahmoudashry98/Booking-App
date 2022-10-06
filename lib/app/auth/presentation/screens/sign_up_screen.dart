@@ -240,6 +240,7 @@ class RegisterScreen extends StatelessWidget {
                         const SizedBox(height: 5),
                         TextFormField(
                           controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'You must enter email';
