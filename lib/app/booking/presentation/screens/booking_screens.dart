@@ -47,7 +47,11 @@ class BookingScreen extends StatelessWidget {
                   children: [
                     Center(
                       child: state is GetBookingLoadingState
-                          ? const CircularProgressIndicator()
+                          ? CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.teal.shade400,
+                              ),
+                            )
                           : Container(
                               height: 45,
                               color: Colors.blue,
@@ -61,7 +65,11 @@ class BookingScreen extends StatelessWidget {
                     ),
                     Center(
                       child: state is GetBookingLoadingState
-                          ? const CircularProgressIndicator()
+                          ? CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.teal.shade400,
+                              ),
+                            )
                           : Container(
                               height: 45,
                               color: Colors.blue,
@@ -75,7 +83,11 @@ class BookingScreen extends StatelessWidget {
                     ),
                     Center(
                       child: state is GetBookingLoadingState
-                          ? const CircularProgressIndicator()
+                          ? CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.teal.shade400,
+                              ),
+                            )
                           : Container(
                               height: 45,
                               color: Colors.blue,
@@ -92,7 +104,11 @@ class BookingScreen extends StatelessWidget {
                 const SizedBox(height: 100),
                 Center(
                   child: state is CreateBookingLoadingState
-                      ? const CircularProgressIndicator()
+                      ?  CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+              Colors.teal.shade400,
+            ),
+                      )
                       : Container(
                           height: 45,
                           color: Colors.blue,

@@ -97,9 +97,13 @@ class UpdateProfileScreen extends StatelessWidget {
                                       shape: BoxShape.circle),
                                   child: CachedNetworkImage(
                                       placeholder: (context, url) =>
-                                          const Center(
+                                           Center(
                                               child:
-                                                  CircularProgressIndicator()),
+                                                  CircularProgressIndicator(
+                                                    valueColor: AlwaysStoppedAnimation<Color>(
+              Colors.teal.shade400,
+            ),
+                                                  )),
                                       fit: BoxFit.cover,
                                       imageUrl: image !=
                                               'http://api.mahmoudtaha.com/images'

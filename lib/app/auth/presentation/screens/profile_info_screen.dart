@@ -19,7 +19,12 @@ class ProfileInfoScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = AuthCubit.get(context);
         if (state is ProfileLoadingState) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(
+              child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(
+              Colors.teal.shade400,
+            ),
+          ));
         } else if (state is ProfileErrorState) {
           return Center(
             child: Text(
@@ -85,8 +90,12 @@ class ProfileInfoScreen extends StatelessWidget {
                             decoration:
                                 const BoxDecoration(shape: BoxShape.circle),
                             child: CachedNetworkImage(
-                                placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator()),
+                                placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.teal.shade400,
+                                      ),
+                                    )),
                                 fit: BoxFit.cover,
                                 imageUrl: cubit.profileInfo!.image != null &&
                                         cubit.profileInfo!.image !=
