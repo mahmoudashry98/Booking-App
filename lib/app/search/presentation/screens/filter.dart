@@ -98,19 +98,10 @@ class _FilterScreenState extends State<FilterScreen> {
                       divisions: 10,
                       labels: labels,
                       values: values,
-
-                      // onChanged: (RangeValues newValues) {
-                      //   setState(() {
-                      //     values = newValues;
-                      //   });
-                      // },
-                      onChangeEnd: (RangeValues endValues) {
-                        //print('Ended change at $endValues');
-                      },
+                      onChangeEnd: (RangeValues endValues) {},
                       onChanged: (newValues) {
                         setState(() {
                           values = newValues;
-                          // print(values);
                         });
                       },
                     ),
@@ -155,9 +146,9 @@ class _FilterScreenState extends State<FilterScreen> {
                                     }
                                   },
                                 ),
-                                CustomText(
-                                text: 'A/c',
-                              ),
+                                const CustomText(
+                                  text: 'A/c',
+                                ),
                               ],
                             ),
                             Row(
@@ -168,15 +159,14 @@ class _FilterScreenState extends State<FilterScreen> {
                                   value: isWifi,
                                   onChanged: (value) {
                                     setState(() {
-                                      if (value = true) {
-                                        facilities.add(6);
-                                      }
                                       isWifi = value!;
                                     });
+                                    if (value = true) {
+                                      facilities.add(6);
+                                    }
                                   },
                                 ),
-                               CustomText(
-                                  text: 'Wifi'),
+                                const CustomText(text: 'Wifi'),
                               ],
                             ),
                             Row(
@@ -187,16 +177,16 @@ class _FilterScreenState extends State<FilterScreen> {
                                   value: isSeaView,
                                   onChanged: (value) {
                                     setState(() {
-                                      if (value = true) {
-                                        facilities.add(9);
-                                      }
                                       isSeaView = value!;
                                     });
+                                    if (value = true) {
+                                      facilities.add(9);
+                                    }
                                   },
                                 ),
-                                CustomText(
-                                text: 'Sea View',
-                              ),
+                                const CustomText(
+                                  text: 'Sea View',
+                                ),
                               ],
                             ),
                           ],
@@ -217,16 +207,16 @@ class _FilterScreenState extends State<FilterScreen> {
                                   value: isKitchen,
                                   onChanged: (value) {
                                     setState(() {
-                                      if (value = true) {
-                                        facilities.add(10);
-                                      }
                                       isKitchen = value!;
                                     });
+                                    if (value = true) {
+                                      facilities.add(10);
+                                    }
                                   },
                                 ),
-                                CustomText(
-                                text: 'Kitchen',
-                              ),
+                                const CustomText(
+                                  text: 'Kitchen',
+                                ),
                               ],
                             ),
                             Row(
@@ -237,16 +227,14 @@ class _FilterScreenState extends State<FilterScreen> {
                                   value: isGarden,
                                   onChanged: (value) {
                                     setState(() {
-                                      if (value = true) {
-                                        facilities.add(7);
-                                      }
                                       isGarden = value!;
                                     });
+                                    if (value = true) {
+                                      facilities.add(7);
+                                    }
                                   },
                                 ),
-                               CustomText(
-                                text: 'Garden'
-                              ),
+                                const CustomText(text: 'Garden'),
                               ],
                             ),
                           ],
@@ -385,9 +373,10 @@ class _FilterScreenState extends State<FilterScreen> {
           bottomNavigationBar: InkWell(
             onTap: () {
               searchCubit.getSearch(
-                  minPrice: values.start,
-                  maxPrice: values.end,
-                  facilities: facilities);
+                minPrice: values.start,
+                maxPrice: values.end,
+                facilities: facilities,
+              );
 
               Navigator.pop(
                 context,
